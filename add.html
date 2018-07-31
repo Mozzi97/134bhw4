@@ -18,7 +18,8 @@
         }
         
     </style>
-    
+ 
+<!-- 
 <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase.js"></script>
 <script>
   // Initialize Firebase
@@ -37,7 +38,7 @@
     <script>
         
   function writeUserData(issuename,issuetype, issuedescriptions) {
-    window.alert("bb");
+
   firebase.database().ref("issues").set({
     issuename:issuename,
     issuetype: issuetype,
@@ -48,7 +49,7 @@
         
         
 function inputThings(){
-    window.alert("aa");
+
     var issuename=document.getElementById("issuename").value;
     var issuetype=document.getElementById("issuetype").value;
     var issuedescriptions=document.getElementById("issuedescription").value;
@@ -57,13 +58,51 @@ function inputThings(){
         
         
     </script>
+
+
+-->
+
+<!--Script for json-server -->
+
+<script>
+function httpPost(){
+
+
+var xhr=new XMLHttpRequest();
+xhr.open("POST",'http://localhost:3000/issues',true);
+var type = document.getElementById('issuetype');
+var typename = type.options[type.selectedIndex].value;
+
+var status = document.getElementById('issuestatus');
+var statusvalue = status.options[status.selectedIndex].value;
+
+  var data = {
+      "id": "",
+      "title": document.getElementById('issuename').value,
+      "type": typename,
+      "status": statusvalue,
+      "description": document.getElementById('issuedescription').value 
+  }
+
+
+xhr.setRequestHeader('Content-Type', 'application/json');
+
+xhr.send(JSON.stringify(data));
+
+
+
+
+}
     
+</script>
+
     
 </head>
 <body>
 
+
 <h1>Add Issue</h1>
-    <form id="myform" method="post">
+    <form id="myform" method="POST" >
     <b>Issue Title</b><br>
         <textarea id="issuename" rows="10" cols="30"></textarea><br>
         <b>Issue Type</b><br>
@@ -71,15 +110,26 @@ function inputThings(){
             <option value="Error">Error</option>
             <option value="Warning">Warning</option>
         </select><br>
+        <b>Issue Status</b><br>
+        <select id="issuestatus">
+                <option value="Open">Open</option>
+                <option value="Closed">Closed</option>
+        </select><br>
         <b>Issue Description</b><br>
         <textarea id="issuedescription" rows="10" cols="30"></textarea><br>
+        <!--Unnecessary function for local database part-->
+        <!--//
         <b>Issue Priority</b><br>
         <div class="slidecontainer"><input type="range" min="1" max="3" value="2" class="slider" id="issuepriority" ></div><br>
             <b>Issue Attachment</b><br>
             <input type="file" id="issuefile"><br>
             <p>&nbsp;</p>
-            <button type="button" onclick="inputThings()">Submit</button>
+        //-->
+            <button type="button" onclick="httpPost()">Submit</button>
             <button type="reset">Reset</button>
     </form>
+
+
+
 </body>
 </html>
